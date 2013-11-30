@@ -13,26 +13,23 @@
 			#content {
 				width: 100%;
 			}
-			#header {
-			}
-			#lefty {
-				position: relative;
+			.madness {
 				width: 50%;
 				float: left;
 			}
-			#righty {
-				position: relative;
-				width: 50%;
-				float: left;
-			}
-			table.hey td {
+			table.walloffame td {
 				border: 1px solid;
 				padding: 0px 3px 0px 3px;
 			}
-			table.hey thead td {
+			table.walloffame thead td {
 				border: 2px solid;
 			}
-			table.hey td.destroyed {
+			table.walloffame td.destroying {
+				border: 0px;
+				margin: 1px;
+				text-align: center;
+			}
+			table.walloffame td.destroyed {
 				margin: 1px;
 				visibility: hidden;
 			}
@@ -40,75 +37,169 @@
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script>
 			 $(function() {
-				$("#hire").click(function() {
-					var vage = (function() {var what = $('.hey').find('tr:last').find('td').eq(2).html(); if (isNaN(what)) return 0; else return what;})();
-					var i_surname = (function() {var data = $('#input-surname').val(); if (data == "") return "Voldomor"; else return data; })();
-					var i_name = (function() {var data = $('#input-name').val(); if (data == "") return "Lycra"; else return data; })();
-					var i_age = (function() {var data = $('#input-age').val(); if (data == "") return +vage+1; else return data; })();
-					var i_dep = (function() {var data = $('#input-dep').val(); if (data == "") return "Tendinte"; else return data; })();
-					var i_when = (function() {var data = $('#input-when').val(); if (data == "") return ">0"; else return data; })();
-					var i_why = (function() {var data = $('#input-why').val(); if (data == "") return "Comoda"; else return data; })();
-					$("#implodees").find('tbody').append('<tr><td>'+i_surname+'</td><td>'+i_name+'</td><td>'+i_age+'</td><td>'+i_dep+'</td><td>'+i_when+'</td><td>'+i_why+'</td></tr>');
-					$('#input-surname').val("");
-					$('#input-name').val("");
-					$('#input-age').val("");
-					$('#input-dep').val("");
-					$('#input-when').val("");
-					$('#input-why').val("");
-					bind_destroyer("latest");
-					return false;
-				});
+				beautify($('body'));
 				
-				bind_destroyer();
+				$('#hire').click(creator);
+				bind_behavior();
+				 
+				$('input:radio[name=behavior][value=destroy]').prop('checked', true)
+				bind_destroyer($('table.walloffame tbody td'));
+				//bind_modifier($('table.walloffame tbody td'));
 			});
 			
-			function bind_destroyer(who) {
-				// no point in binding all
-				if (who=='latest')
-					$(".hey").find("tbody").find('tr:last').find("td").click(function () {
-						var that = $(this);
-						$(this).attr('style', 'border: 0px; margin: 1px;')
-						$(this).text('XXX');
-						setTimeout(function() {that.attr('class', 'destroyed');}, 500);
+			// questionably useful but fancy functions
+			(function($) {
+				$.fn.get_field_or = function(defaultValue) {
+					if(!$(this).is("input"))
+						return;
+					else {
+						var data = $(this).val();
+						if (!data)
+							return defaultValue;
+						else
+							return data;
+					}
+				};
+				
+				$.fn.clear_field = function() {
+					if(!$(this).is("input"))
+						return;
+					else
+						$(this).val("");
+				};
+			})(jQuery);
+			
+			// spawns new table entry
+			function creator() {
+				var vage = (function() {var what = $('table.walloffame tr:last td').eq(2).html(); if (isNaN(what)) return 0; else return what;})();
+				var i_surname = $('#input-surname').get_field_or(capitalize(randomizer('saferigutrnimevagusileronovagelohanukidyzevexiz',5)));
+				var i_name = $('#input-name').get_field_or(capitalize(randomizer('ivolidaremonstererunogibyxezonivedihetakolone',7)));
+				var i_age = $('#input-age').get_field_or(+vage+1);
+				var i_dep = $('#input-dep').get_field_or(capitalize(randomizer('edorinufehiqywumojutemuneminynomixecivusizozu',9)));
+				var i_date = $('#input-date').get_field_or(ryear());
+				var i_position = $('#input-position').get_field_or(capitalize(randomizer('lonagireto',3)));
+				
+				$('table.walloffame').find('tbody').append('<tr><td>'+i_surname+'</td><td>'+i_name+'</td><td>'+i_age+'</td><td>'+i_dep+'</td><td>'+i_date+'</td><td>'+i_position+'</td></tr>');
+					
+				$('input.idata').clear_field();
+				
+				if ($('input:radio[name=behavior][value=destroy]').is(':checked'))
+					bind_destroyer($('table.walloffame tbody tr:last td'));
+				if ($('input:radio[name=behavior][value=edit]').is(':checked'))
+					bind_modifier($('table.walloffame tbody tr:last td'));
+				
+				if ($('#madness').is(':checked')) {
+					$('div.madness').each(function() {
+						$(this).append('<div class="madness"><p>&nbsp;</p></div>');
 					});
-				else
-					$(".hey").find("tbody").find("td").click(function () {
-						var that = $(this);
-						$(this).attr('style', 'border: 0px; margin: 1px;')
-						$(this).text('XXX');
-						setTimeout(function() {that.attr('class', 'destroyed');}, 500);
+					$('body, div, td').each(function() { beautify($(this)); });
+				}
+				return false;
+			};
+			
+			// random background color
+			function beautify(obj) {
+				var newColor = '#'+Math.floor((Math.random()*0.5+0.5)*16777215).toString(16);
+				obj.css('background', newColor);
+			};
+			
+			// table cell destroyer
+			function bind_destroyer(obj) {
+				obj.unbind();
+				obj.click(function () {
+					var that = $(this);
+					var lineEmpty = 1;
+					$(this).attr('class', 'destroying');
+					$(this).text('XXX');
+					setTimeout(function() {
+						that.attr('class', 'destroyed');
+						
+						// hide row if empty
+						that.parent().children().each(function() {
+							if (!$(this).hasClass('destroyed'))
+								lineEmpty = 0;
+						});
+						if (lineEmpty==1)
+							that.parent().attr('style', 'display: none');
+					}, 500);
+				});
+			};
+			
+			// table cell editor
+			function bind_modifier(obj) {
+				obj.unbind();
+				obj.click(function () {
+					$(this).html('<form><input class="iedit" type="text" /></form>')
+					$(this).find('input:first').focus();
+					$(this).submit(function () {
+						var edit = $(this).find('input:first').val();
+						$(this).html(edit);
+						return false;
 					});
+				});
+			};
+			
+			// bind radio button functionality
+			function bind_behavior() {
+				$('input:radio[name=behavior]').change(function() {
+					if ($('input:radio[name=behavior][value=destroy]').is(':checked'))
+					bind_destroyer($('table.walloffame tbody td'));
+				if ($('input:radio[name=behavior][value=edit]').is(':checked'))
+					bind_modifier($('table.walloffame tbody td'));
+				});
+			};
+			
+			// random year
+			function ryear() {
+				return Math.floor(Math.random()*5500-2000);
+			};
+			
+			// returns random strings by selecting even/odd characters for even/odd iterations
+			function randomizer(str, no) {
+				return no>0 ? str[2*Math.floor(Math.random()*((str.length-no%2)/2))+no%2] + randomizer(str,no-1) : '';
+			};
+			
+			// makes things important
+			function capitalize(str) {
+				return str.charAt(0).toUpperCase()+str.slice(1);
 			};
 		</script>
 	</head>
+	<body>
 		<div id="header">
 			<div style="border: 1px solid;">
 				<div style="margin: 3px; border: 1px solid;">
 					<div class="center">
 						<span style="font-size: xx-large; font-weight: bolder;">WELCOME!!!</span>
-						<span style="font-size: xx-small">to web 1.0</span>
+						<span style="font-size: xx-small">to web 3.0</span>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div id="content">
-			<div id="lefty">
+			<div id="lefty" class="madness">
 				<p></p>
 				<form>
-					<input id="input-surname" type="text" />
-					<input id="input-name" type="text" />
-					<input id="input-age" type="text" />
-					<input id="input-dep" type="text" />
-					<input id="input-when" type="text" />
-					<input id="input-why" type="text" />
+					<input id="input-surname" class="idata" type="text" />
+					<input id="input-name" class="idata" type="text" />
+					<input id="input-age" class="idata" type="text" />
+					<input id="input-dep" class="idata" type="text" />
+					<input id="input-date" class="idata" type="text" />
+					<input id="input-position" class="idata" type="text" />
 					<button id="hire">Hire</button>
 				</form>
 				<br>
+				<form>
+					<input type="radio" name="behavior" value="destroy">Destroy
+					<input type="radio" name="behavior" value="edit">Edit
+				</form>
+				<br>
 				<p>click click</p>
+				<p><input type="checkbox" id="madness"><span>Madness</span></p>
 			</div>
-			<div id="righty">
+			<div id="righty" class="madness">
 				<p></p>
-				<table class="hey" id="implodees">
+				<table class="walloffame" id="implodees">
 					<thead>
 						<tr>
 							<td>Prenume</td>
@@ -160,8 +251,17 @@
 							<td>2014</td>
 							<td>Lead</td>
 						</tr>
+						<tr>
+							<td>Voldomor</td>
+							<td>Lycra</td>
+							<td>26</td>
+							<td>Tendinte</td>
+							<td>>0</td>
+							<td>Comoda</td>
+						</tr>
 					</tbody>
 				</table>
 			</div>
 		</div>
+	</body>
 </html>
