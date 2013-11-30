@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>notepadSoftware</title>
+		<style>
+			body {
+				background: #E40AD6;
+			}
+			.center {
+				display: table;
+				margin: auto;
+			}
+			#content {
+				width: 100%;
+			}
+			#header {
+			}
+			#lefty {
+				position: relative;
+				width: 50%;
+				float: left;
+			}
+			#righty {
+				position: relative;
+				width: 50%;
+				float: left;
+			}
+			table.hey td {
+				border: 1px solid;
+				padding: 0px 3px 0px 3px;
+			}
+			table.hey thead td {
+				border: 2px solid;
+			}
+			table.hey td.destroyed {
+				margin: 1px;
+				visibility: hidden;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script>
+			 $(function() {
+				$("#hire").click(function() {
+					var vage = (function() {var what = $('.hey').find('tr:last').find('td').eq(2).html(); if (isNaN(what)) return 0; else return what;})();
+					var i_surname = (function() {var data = $('#input-surname').val(); if (data == "") return "Voldomor"; else return data; })();
+					var i_name = (function() {var data = $('#input-name').val(); if (data == "") return "Lycra"; else return data; })();
+					var i_age = (function() {var data = $('#input-age').val(); if (data == "") return +vage+1; else return data; })();
+					var i_dep = (function() {var data = $('#input-dep').val(); if (data == "") return "Tendinte"; else return data; })();
+					var i_when = (function() {var data = $('#input-when').val(); if (data == "") return ">0"; else return data; })();
+					var i_why = (function() {var data = $('#input-why').val(); if (data == "") return "Comoda"; else return data; })();
+					$("#implodees").find('tbody').append('<tr><td>'+i_surname+'</td><td>'+i_name+'</td><td>'+i_age+'</td><td>'+i_dep+'</td><td>'+i_when+'</td><td>'+i_why+'</td></tr>');
+					$('#input-surname').val("");
+					$('#input-name').val("");
+					$('#input-age').val("");
+					$('#input-dep').val("");
+					$('#input-when').val("");
+					$('#input-why').val("");
+					bind_destroyer("latest");
+					return false;
+				});
+				
+				bind_destroyer();
+			});
+			
+			function bind_destroyer(who) {
+				// no point in binding all
+				if (who=='latest')
+					$(".hey").find("tbody").find('tr:last').find("td").click(function () {
+						var that = $(this);
+						$(this).attr('style', 'border: 0px; margin: 1px;')
+						$(this).text('XXX');
+						setTimeout(function() {that.attr('class', 'destroyed');}, 500);
+					});
+				else
+					$(".hey").find("tbody").find("td").click(function () {
+						var that = $(this);
+						$(this).attr('style', 'border: 0px; margin: 1px;')
+						$(this).text('XXX');
+						setTimeout(function() {that.attr('class', 'destroyed');}, 500);
+					});
+			};
+		</script>
+	</head>
+		<div id="header">
+			<div style="border: 1px solid;">
+				<div style="margin: 3px; border: 1px solid;">
+					<div class="center">
+						<span style="font-size: xx-large; font-weight: bolder;">WELCOME!!!</span>
+						<span style="font-size: xx-small">to web 1.0</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="content">
+			<div id="lefty">
+				<p></p>
+				<form>
+					<input id="input-surname" type="text" />
+					<input id="input-name" type="text" />
+					<input id="input-age" type="text" />
+					<input id="input-dep" type="text" />
+					<input id="input-when" type="text" />
+					<input id="input-why" type="text" />
+					<button id="hire">Hire</button>
+				</form>
+				<br>
+				<p>click click</p>
+			</div>
+			<div id="righty">
+				<p></p>
+				<table class="hey" id="implodees">
+					<thead>
+						<tr>
+							<td>Prenume</td>
+							<td>Nume</td>
+							<td>Varsta</td>
+							<td>Departament</td>
+							<td>Data</td>
+							<td>Pozitie</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Vald</td>
+							<td>Laciret</td>
+							<td>2</td>
+							<td>Despoti</td>
+							<td>1723</td>
+							<td>Bufon</td>
+						</tr>
+						<tr>
+							<td>Vadl</td>
+							<td>Larceti</td>
+							<td>19</td>
+							<td>Zebre</td>
+							<td>2009</td>
+							<td>Neofit</td>
+						</tr>
+						<tr>
+							<td>Vdal</td>
+							<td>Lecarit</td>
+							<td>2541</td>
+							<td>Magi</td>
+							<td>518BC</td>
+							<td>Arch</td>
+						</tr>
+						<tr>
+							<td>Videl</td>
+							<td>Lacart</td>
+							<td>-2</td>
+							<td>null</td>
+							<td>2020</td>
+							<td>33</td>
+						</tr>
+						<tr>
+							<td>Vlad</td>
+							<td>Licaret</td>
+							<td>25</td>
+							<td>Dev</td>
+							<td>2014</td>
+							<td>Lead</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+</html>
