@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en" ng-app="itemApp">
+<head>
+	<meta charset="utf-8">
+	<title>Thrift shop near Epsilon Eridani</title>
+	<script type="text/javascript">var startTime = (new Date).getTime();</script>
+
+	<link rel="stylesheet" href="css/base.css">
+	
+	<script src="lib/jquery/jquery-1.10.2.js"></script>
+	<script src="lib/angular/angular.js"></script>
+	<script src="lib/angular/angular-animate.js"></script>
+	<script src="lib/angular/angular-resource.js"></script>
+	<script src="lib/angular/angular-route.js"></script>
+
+	<script src="js/util.js"></script>
+	<script src="js/ngular.js"></script>
+	
+	<script>
+		$(function() {
+			writeLoadTime($('span.footerright'), startTime);
+			bindHighlighter($('#itemlist'), 'li', '.itemheaderright .colorsquare');
+		});
+	</script>
+</head>
+<body ng-controller="itemListCtrler">
+	<div id="header">
+		<div id="title">
+			<span>Thrift shop near Epsilon Eridani</span>
+		</div>
+		<div id="navbar">
+			<div id="navbarlinks">
+				<ul id="navlist">
+					<li><a href="" ng-click="setColor('')">All the Stuff</a></li>
+					<li><a href="" ng-click="setColor('grey')">Grey Stuff</a></li>
+					<li><a href="" ng-click="setColor('red')">Red Stuff</a></li>
+					<li><a href="" ng-click="setColor('purple')">Purple Stuff</a></li>
+					<li><a href="" ng-click="setColor('cyan')">Nothing Here</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<div id="content">
+		<div id="sidebar">
+			<table id="sidestyle">
+				<tr>
+					<td class="sideleft"><span>Clear all:</span></td>
+					<td class="sideright"><button ng-click="clearItems()">Second Thoughts</button></td>
+				</tr>
+				<tr>
+					<td class="sideleft"><span>Search:</span></td>
+					<td class="sideright"><input ng-model="search"></input></td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td class="sideleft"><span>Tags:</span></td>
+					<td class="sideright"><button ng-click="clearTags()">Clear Tags</button></td>
+				</tr>
+				<tr class="itemtags" ng-repeat="filterTag in filterTags">
+					<td class="sideleft"></td>
+					<td class="sideright"> <a href="" ng-click="deleteTag(filterTag)">{{filterTag}}</a></td>
+				</tr>
+				<tr>
+					<td><br></td>
+				</tr>
+				<tr>
+					<td class="sideleft"><span>New</span></td>
+					<td class="sideright"></td>
+				</tr>
+				<tr>
+					<td class="sideleft"><span>Name:</span></td>
+					<td class="sideright"><input ng-model="newItem.name"></input></td>
+				</tr>
+				<tr>
+					<td class="sideleft"><span>Description:</span></td>
+					<td class="sideright"><input ng-model="newItem.desc"></input></td>
+				</tr>
+				<tr>
+					<td class="sideleft"></td>
+					<td class="sideright">
+						<input type="radio" ng-model="newItem.color" value="grey">grey</input>
+						<input type="radio" ng-model="newItem.color" value="red">red</input>
+						<input type="radio" ng-model="newItem.color" value="purple">purple</input>
+					</td>
+				</tr>
+				<tr>
+					<td class="sideleft"></td>
+					<td class="sideright"><button ng-click="addItem()">Add</button></td>
+				</tr>
+			</table>
+		</div>
+		<div id="items">
+			<ul id="itemlist">
+				<!-- ng-class="item | highlight" ng-mouseenter="highlightOn(item)" ng-mouseleave="highlightOff(item)" -->
+				<li id="{{'item'+item.id}}" ng-repeat="item in items | filter:{color:qcolor} | filter:hasTags | filter:search" ng-switch="item.edit" ng-click="checkItem(item)">
+					<div ng-switch-when="N">
+						<span class="itemheaderleft {{item.checked | strikecheck}}">{{item.name}}</span>
+						<span class="itemheaderright"><div class="colorsquare {{item.color}}"></div></span>
+						<span class="itemdeteailleft">{{item.desc}}</span>
+						<span class="itemdetailmiddle">tags: <span class="itemtags" ng-repeat="tag in item.tags"><a href="" ng-click="addTag(tag, $event)"> {{tag}}</a> </span></span>
+						<span class="itemdetailright"><a class="editlink" href="" ng-click="editItem(item)">[edit]</a></span>
+					</div>
+					<div ng-switch-when="Y">
+						<span class="itemheaderleft {{item.checked | strikecheck}}"><input ng-model="item.name" ng-keypress="editItemDoneKey(item, $event)"></input></td></span>
+						<span class="itemheaderright">
+							<input type="radio" ng-model="item.color" value="grey">grey</input>
+							<input type="radio" ng-model="item.color" value="red">red</input>
+							<input type="radio" ng-model="item.color" value="purple">purple</input>
+							&nbsp;
+							<div class="colorsquare {{item.color}}"></div>
+						</span>
+						<span class="itemdeteailleft"><input ng-model="item.desc" ng-keypress="editItemDoneKey(item, $event)"></input></td></span>
+						<span class="itemdetailmiddle">tags: <span class="itemtags" ng-repeat="tag in item.tags"><a href="" ng-click="addTag(tag, $event)"> {{tag}}</a> </span></span>
+						<span class="itemdetailright"><a class="editlink" href="" ng-click="editItemDone(item)">[ok]</a></span>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div id="footer">
+		<span class="footerleft">(c) Node 37.Cycle 09.2631</span><span class="footerright">page generated in: </span>
+	</div>
+</body>
+</html>

@@ -1,0 +1,219 @@
+body {
+	width: 95%;
+	margin: auto;
+	padding: 5px;
+}
+
+#header {
+	background: #F7F7F7;
+	margin: 0.3%;
+}
+
+#title  {
+	display: table;
+	margin: auto;
+	font-family: Copperplate, "Copperplate Gothic Light", fantasy;
+	font-size: 350%;
+	font-style: italic;
+}
+
+#navbar {
+	background: #555555;
+	display: table;
+	width: 100%;
+}
+
+#navbarlinks {
+	background: #555555;
+	display: table;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 3px;
+}
+
+#content {
+	margin: 0.3%;
+}
+
+#sidebar {
+	background: #F7F7F7;
+	width: 20%;
+	float: left;
+}
+
+#items {
+	background: #F7F7F7;
+	margin-left: 0.3%;
+	width: 79.7%;
+	float: left;
+}
+
+#footer {
+	background: #555555;
+	margin: 0.3%;
+	width: 99.4%;
+	float: left;
+	color: #F7F7F7;
+	font-size: 95%;
+}
+
+#footer span {
+	line-height: 170%;
+}
+
+.footerleft {
+	margin: 0 0 0 10px;
+}
+
+.footerright {
+	margin: 0 10px 0 0;
+	float: right;
+	font-style: italic;
+}
+
+ul#navlist {
+	display: inline;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif;
+}
+
+ul#navlist li {
+	float: left;
+}
+
+ul#navlist a {
+	color: #F7F7F7;
+	text-align:center;
+	text-decoration: none;
+	display: block;
+	width: 120px;
+}
+
+ul#navlist a:hover {
+	background: #F7F7F7;
+	color: #555555;
+}
+
+ul#itemlist {
+	list-style: none;
+	font-size: 110%;
+	padding-left: 20px;
+}
+
+ul#itemlist li {
+	display: block;
+	margin: 0;
+	padding: 15px;
+	height: 100%;
+	min-height: 55px;
+}
+
+ul#itemlist li:hover {
+	border-width: 1px;
+	border-style: solid;
+}
+
+ul#itemlist a {
+}
+
+ul#itemlist a:hover {
+}
+
+.itemheaderleft {
+	float: left;
+	font-size: 115%;
+	font-weight: bold;
+	width: 70%;
+}
+
+.itemheaderleft.checked {
+	font-size: 125%;
+	text-shadow: 0 0 5px #80AD3D;
+}
+
+.itemheaderleft.notchecked {
+}
+
+.itemheaderleft input {
+	width: 70%;
+}
+
+.itemheaderright {
+	float: right;
+	text-align: right;
+	width: 30%;
+}
+
+.itemdeteailleft {
+	float:left;
+	padding-left: 3%;
+	width: 67%;
+}
+
+.itemdeteailleft input {
+	width: 70%;
+}
+
+.itemdetailmiddle {
+	float: lelft;
+	text-align: right;
+}
+
+.itemdetailright {
+	float: right;
+	text-align: right;
+	width: 2%;
+}
+
+
+.grey {
+	background: #D4D4D4;
+}
+
+.red {
+	background: #FFB3B3;
+}
+
+.purple {
+	background: #ECCCF0;
+}
+
+div.colorsquare {
+	float: right;
+	width: 20px;
+	height: 20px;
+}
+
+#sidestyle {
+	width: 90%;
+	margin: 5%;
+}
+
+.sideleft {
+	text-align: left;
+}
+
+.sideright {
+	text-align: right;
+}
+
+.itemtags a {
+	color: #000000;
+	text-decoration: none;
+	font-style: italic;
+}
+
+.itemtags a:hover {
+	text-decoration: underline;
+}
+
+.editlink {
+	color: #000000;
+	text-decoration: none;
+}
+
+.editlink:hover {
+	text-decoration: underline;
+}
