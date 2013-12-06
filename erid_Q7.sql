@@ -1,0 +1,9 @@
+-- Q7
+alter table stoc drop column unitary_price;
+
+create or replace view infostoc_v as
+select mag.site_name, itm.item_name, cat.item_type_name, sto.quantity
+  from stoc sto
+   join magazin mag on mag.site_id = sto.site_id
+   join produs itm on itm.item_id = sto.item_id
+    join categorieprodus cat on cat.item_type_id = itm.item_type_id;
